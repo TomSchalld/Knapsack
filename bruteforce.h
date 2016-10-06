@@ -15,7 +15,7 @@
 #include <climits>
 
 /*** define ***/
-static const int n=4; //not very elegant
+static const int n=25; //not very elegant
 struct result{
     int ID=0;
     int k=0;

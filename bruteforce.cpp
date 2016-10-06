@@ -78,6 +78,7 @@ void printCombinations() {
 
 void doTheComputation(std::vector<int> instance) {
     result tempResult;
+    std::bitset<n> temp;
     result best;
     clock_t time;
     int multiplikator = 1;
@@ -86,27 +87,22 @@ void doTheComputation(std::vector<int> instance) {
     tempResult.ID = instance.at(0);
     tempResult.totalWeight = 0;
     best.ID = instance.at(0);
-    printCombinations();
+    //printCombinations();
     //TODO take time here
     time = clock();
     for (int k = 0; k < multiplikator; ++k) {
 
 
         for (auto it = combinations.cbegin(); it != combinations.cend(); ++it) {
-        //for (int l = 0; l < combinations.size(); ++l) {
-
-
-            std::bitset<n> temp(it->to_string());
-            tempResult.totalWeight=0;
-            tempResult.totalCost =0;
+            temp = *it;
+            tempResult.totalWeight = 0;
+            tempResult.totalCost = 0;
             tempResult.bitset = temp;
-            //temp = combinations.at(l);
-            for (unsigned int i = 0, j = 3; i < n; i++) {
+            unsigned int j = 3;
+            for (int i = n - 1; i > -1; i--) {
                 if (temp[i] == 1) {
                     tempResult.totalWeight += instance.at(j);
                     tempResult.totalCost += instance.at(j + 1);
-                    //tempResult.bitset = temp;
-
                 }
                 j += 2;
             }
@@ -116,15 +112,14 @@ void doTheComputation(std::vector<int> instance) {
                 }
             }
         }
-
-
     }
+
     //TODO take time here
     time = clock() - time;
     std::cout << "|Best Result: " << best.ID << " total weight " << best.totalWeight << " total cost: "
               << best.totalCost << " bitset: " << best.bitset << "|" << std::endl;
 
-    computationalTime = ((double) time / CLOCKS_PER_SEC) / multiplikator;
+    computationalTime = ((double) time / CLOCKS_PER_SEC);
     std::cout << time << " CPU-Clicks needed" << std::endl;
     std::cout << computationalTime << "micro seconds CPU-Time needed" << std::endl;
 

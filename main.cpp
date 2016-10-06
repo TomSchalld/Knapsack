@@ -29,8 +29,15 @@ int main() {
         std::cout<<*it<<std::endl;
     }*/
     bruteForce();
-
-
+    /*std::bitset<4>a (1);
+    std::cout<<a<<std::endl;
+    for(int i=4-1; i>-1; i--){
+        if(a[i]==0){
+            std::cout<<0<<std::ends;
+        } else{
+            std::cout<<1<<std::ends;
+        }
+    }*/
     /*std::cout<< combinations.count() << " ones and ";
     std::cout << (combinations.size()-combinations.count()) << " zeros.\n";*/
     return 0;
