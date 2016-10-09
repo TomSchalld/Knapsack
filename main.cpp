@@ -28,7 +28,12 @@ int main() {
     for (auto it = combinations.cbegin(); it != combinations.cend(); ++it) {
         std::cout<<*it<<std::endl;
     }*/
-    bruteForce();
+
+    /*bruteForce();
+    exportToDesktop();
+    printResultSet();*/
+    greedy();
+    printResultSet();
     /*std::bitset<4>a (1);
     std::cout<<a<<std::endl;
     for(int i=4-1; i>-1; i--){

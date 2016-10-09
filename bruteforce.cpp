@@ -4,7 +4,9 @@
 
 
 #include <ctime>
+#include <algorithm>
 #include "bruteforce.h"
+
 
 
 void printFileContent() {
@@ -81,12 +83,12 @@ void doTheComputation(std::vector<int> instance) {
     std::bitset<n> temp;
     result best;
     clock_t time;
-    int multiplikator = 1;
-    double computationalTime;
     int capacity = instance.at(2);
     tempResult.ID = instance.at(0);
     tempResult.totalWeight = 0;
     best.ID = instance.at(0);
+    setMultiplikator();
+
     //printCombinations();
     //TODO take time here
     time = clock();
@@ -116,18 +118,32 @@ void doTheComputation(std::vector<int> instance) {
 
     //TODO take time here
     time = clock() - time;
-    std::cout << "|Best Result: " << best.ID << " total weight " << best.totalWeight << " total cost: "
-              << best.totalCost << " bitset: " << best.bitset << "|" << std::endl;
+    best.computationalTime = ((double) time / CLOCKS_PER_SEC) / multiplikator;
 
-    computationalTime = ((double) time / CLOCKS_PER_SEC);
-    std::cout << time << " CPU-Clicks needed" << std::endl;
-    std::cout << computationalTime << "micro seconds CPU-Time needed" << std::endl;
+    resultset.push_back(best);
 
+}
+
+void setMultiplikator() {
+    switch (n) {
+        case 4:
+            multiplikator = 100000;
+            break;
+        case 10:
+            multiplikator = 1000;
+            break;
+        case 15:
+            multiplikator = 10;
+            break;
+        default:
+            multiplikator = 1;
+            break;
+    }
 }
 
 /*** returns if first param better result then second ***/
 bool betterResult(result a, result b) {
-    return  a.totalCost >= b.totalCost;
+    return a.totalCost >= b.totalCost;
 }
 
 void bruteForce() {
@@ -138,3 +154,74 @@ void bruteForce() {
     }
 
 }
+
+void exportToDesktop() {
+    std::string path;
+    std::string home;
+#ifdef _WIN32
+    home = getenv("HOMEPATH");
+#else
+    home= getenv("HOME");
+#endif
+    path = home + "/Desktop/result_" + std::to_string(n) + ".csv";
+    std::ofstream results;
+    results.open(path);
+    for (auto it = resultset.cbegin(); it != resultset.cend(); ++it) {
+        results << "Instance ID," << it->ID << ",Total Wieght," << it->totalWeight << ",Total Cost," << it->totalCost
+                << ",BitSet,'" << it->bitset << "' ,Computational Time in seconds," << it->computationalTime << "\n";
+    }
+    results.close();
+}
+
+void printResultSet() {
+    result best;
+    for (auto it = resultset.cbegin(); it != resultset.cend(); ++it) {
+        best = *it;
+        std::cout << "|Best Result: " << best.ID << " total weight " << best.totalWeight << " total cost: "
+                  << best.totalCost << " bitset: " << best.bitset << "|" << std::endl;
+        std::cout << time << " CPU-Clicks needed" << std::endl;
+        std::cout << best.computationalTime << "micro seconds CPU-Time needed" << std::endl;
+    }
+}
+
+void greedy() {
+    readIn();
+    for (auto it = instances.cbegin(); it != instances.cend(); ++it) {
+        doGreedyOnInstance(*it);
+    }
+
+}
+
+void doGreedyOnInstance(std::vector<int> instance) {
+    int capacity = instance.at(2);
+    result bestCombo;
+    std::vector<item>items;
+    setMultiplikator();
+    time_t time;
+    for (int i = 3, j = 0; i < instance.size(); i += 2) {
+        items.push_back(
+                item(j++, instance.at(i + 1), instance.at(i), ((float) instance.at(i + 1) / instance.at(i))));
+    }
+    //TODO take time here
+    time = clock();
+    for (int k = 0; k < multiplikator; ++k) {
+        bestCombo.setZero();
+        std::sort(items.begin(), items.end(), item::compareRatio);
+        for (auto it = items.cbegin(); it != items.cend(); ++it) {
+            if (bestCombo.totalWeight + it->weight <= capacity) {
+                bestCombo.totalWeight += it->weight;
+                bestCombo.totalCost += it->cost;
+                bestCombo.bitset[it->id] = 1;
+            } else {
+                bestCombo.bitset[it->id] = 0;
+            }
+
+        }
+    }
+    //TODO take time here
+    time = clock() - time;
+    bestCombo.ID=instance.at(0);
+    bestCombo.computationalTime = ((double) time / CLOCKS_PER_SEC) / multiplikator;
+    resultset.push_back(bestCombo);
+}
+
