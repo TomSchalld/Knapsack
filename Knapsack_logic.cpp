@@ -5,7 +5,7 @@
 
 #include <ctime>
 #include <algorithm>
-#include "bruteforce.h"
+#include "Knapsack_logic.h"
 
 
 
