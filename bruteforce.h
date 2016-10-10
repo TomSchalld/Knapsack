@@ -15,7 +15,7 @@
 #include <climits>
 
 /*** define ***/
-static const int n=4; //not very elegant
+static const int n=40; //not very elegant
 struct result{
     int ID=0;
     int totalCost=0;
@@ -54,7 +54,9 @@ struct item{
     }
 };
 /*** vars ***/
-static std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_"+std::to_string(n)+".inst.dat";
+//static std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_"+std::to_string(n)+".inst.dat";
+static std::string path = "/Users/Thomas/ClionProjects/Knapsack/inst/knap_"+std::to_string(n)+".inst.dat";
+
 static std::ifstream file;
 static std::vector<std::string> dataFromFile;
 static std::vector<std::vector<int>> instances;
