@@ -2,8 +2,6 @@
 // Created by tscha on 05/10/2016.
 //
 
-#ifndef KNAPSACK_BRUTEFORCE_H
-#define KNAPSACK_BRUTEFORCE_H
 
 /*** includes ***/
 #include <fstream>
@@ -13,15 +11,29 @@
 #include <iterator>
 #include <bitset>
 #include <climits>
+#include <ctime>
+#include <algorithm>
+#include <memory>
 
 /*** define ***/
-static const int n=4; //not very elegant
+static const int n=25; //not very elegant
+static const bool isBruteforce = false;
+
 struct result{
     int ID=0;
     int totalCost=0;
     int totalWeight=INT_MAX;
     std::bitset<n> bitset;
     double computationalTime;
+
+public:
+    result(){
+        this->setZero();
+    }
+
+    ~result() {
+
+    }
 
     friend std::ostream &operator<<(std::ostream &os, const result &result1) {
         os << "ID: " << result1.ID << " totalCost: " << result1.totalCost << " totalWeight: "
@@ -53,6 +65,25 @@ struct item{
         return os;
     }
 };
+struct field{
+    //std::unique_ptr<result> result1(new esult);
+    bool visited = false;
+    field *leftLink = nullptr;
+    field *downLink = nullptr;
+
+
+
+
+   /* friend std::ostream &operator<<(std::ostream &os, const field &field1) {
+        os << "result1: " << *field1.result1 << " visited: " << field1.visited;
+        return os;
+    }*/
+
+    bool hasBeenVisited(){
+        return this->visited;
+    }
+};
+typedef field Field;
 /*** vars ***/
 #ifdef _WIN32
 static std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_"+std::to_string(n)+".inst.dat";
@@ -69,7 +100,7 @@ static std::vector<result> resultset;
 static int multiplikator;
 
 /*** functions ***/
-void setMultiplikator();
+void setMultiplikator(bool isBruteForce);
 void convertLineToInstance(std::string line);
 void printFileContent();
 void readIn();
@@ -84,4 +115,5 @@ void exportToDesktop();
 void printResultSet();
 void doGreedyOnInstance(std::vector<int> instance);
 void greedy();
-#endif //KNAPSACK_BRUTEFORCE_H
+
+std::vector<item> generateItemsFromInstance(std::vector<int> instance);

@@ -3,10 +3,8 @@
 //
 
 
-#include <ctime>
-#include <algorithm>
-#include "Knapsack_logic.h"
 
+#include "Knapsack_logic.h"
 
 
 void printFileContent() {
@@ -87,7 +85,7 @@ void doTheComputation(std::vector<int> instance) {
     tempResult.ID = instance.at(0);
     tempResult.totalWeight = 0;
     best.ID = instance.at(0);
-    setMultiplikator();
+    setMultiplikator(isBruteforce);
 
     //printCombinations();
     //TODO take time here
@@ -124,21 +122,26 @@ void doTheComputation(std::vector<int> instance) {
 
 }
 
-void setMultiplikator() {
-    switch (n) {
-        case 4:
-            multiplikator = 100000;
-            break;
-        case 10:
-            multiplikator = 1000;
-            break;
-        case 15:
-            multiplikator = 10;
-            break;
-        default:
-            multiplikator = 1;
-            break;
+void setMultiplikator(bool isBruteForce) {
+    if(isBruteForce){
+        switch (n) {
+            case 4:
+                multiplikator = 100000;
+                break;
+            case 10:
+                multiplikator = 1000;
+                break;
+            case 15:
+                multiplikator = 10;
+                break;
+            default:
+                multiplikator = 1;
+                break;
+        }
+    } else{
+        multiplikator = 100000;
     }
+
 }
 
 /*** returns if first param better result then second ***/
@@ -158,12 +161,18 @@ void bruteForce() {
 void exportToDesktop() {
     std::string path;
     std::string home;
+    std::string version;
 #ifdef _WIN32
     home = getenv("HOMEPATH");
 #else
     home= getenv("HOME");
 #endif
-    path = home + "/Desktop/result_" + std::to_string(n) + ".csv";
+    if(isBruteforce){
+        version = "Brute";
+    }else{
+        version = "Greedy";
+    }
+    path = home + "/Desktop/result_" + std::to_string(n)+ version + ".csv";
     std::ofstream results;
     results.open(path);
     for (auto it = resultset.cbegin(); it != resultset.cend(); ++it) {
@@ -196,7 +205,7 @@ void doGreedyOnInstance(std::vector<int> instance) {
     int capacity = instance.at(2);
     result bestCombo;
     std::vector<item>items;
-    setMultiplikator();
+    setMultiplikator(isBruteforce);
     time_t time;
     for (int i = 3, j = 0; i < instance.size(); i += 2) {
         items.push_back(
@@ -223,5 +232,15 @@ void doGreedyOnInstance(std::vector<int> instance) {
     bestCombo.ID=instance.at(0);
     bestCombo.computationalTime = ((double) time / CLOCKS_PER_SEC) / multiplikator;
     resultset.push_back(bestCombo);
+}
+
+std::vector<item> generateItemsFromInstance(std::vector<int> instance) {
+    std::vector<item> items;
+    int id=1;
+    items.push_back(item(0,0,0,-1));
+    for(int i =3; i< instance.size(); i+=2){
+        items.push_back(item(id++,instance.at(i),instance.at(i+1),-1));
+    }
+    return items;
 }
 
