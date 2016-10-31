@@ -6,25 +6,29 @@
 #include "Knapsack_logic.h"
 #include "rs/TreeNode.h"
 
-void readIn(std::vector<std::string> &dataFromFile, const std::string &line, std::vector<int> &instance,
+void readIn(std::vector<std::string> &dataFromFile, std::string &line,
             const std::string &path);
 
 void createNodes(std::vector<int> &instance, std::vector<TreeNode *> &nodes);
 
+void lineToInt(const std::string &line, std::vector<int> &instance);
+
 int main() {
-
-
-
 
 
     std::vector<std::string> dataFromFile;
     std::string line;
     std::vector<int> instance;
-    std::vector<TreeNode*> nodes;
+    std::vector<TreeNode *> nodes;
     std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_4.inst.dat";
-    readIn(dataFromFile, line, instance, path);
+    readIn(dataFromFile, line, path);
+    lineToInt(dataFromFile.at(0), instance);
     createNodes(instance, nodes);
-
+    std::sort(nodes.begin(), nodes.end(), TreeNode::compareRatio);
+    nodes.insert(nodes.begin(), new TreeNode());
+    for (int i = 0; i < nodes.size(); i++) {
+        std::cout << *nodes.at(i) << std::endl;
+    }
 
 
 
@@ -76,35 +80,39 @@ if (isBruteforce){
 }
 
 void createNodes(std::vector<int> &instance, std::vector<TreeNode *> &nodes) {
-    TreeNode *tmp = new TreeNode();
-    nodes.push_back(tmp);
-    for(int i = 3; i<instance.size(); i++){
+    TreeNode *tmp = nullptr;
+    for (int i = 3; i < instance.size(); i++) {
         tmp = new TreeNode();
         tmp->setWeight(instance.at(i++));
         tmp->setCost(instance.at(i));
-        tmp->setCostWeightRatio((double)(tmp->getCost()/tmp->getWeight()));
+        tmp->setCostWeightRatio((double) (tmp->getCost() / tmp->getWeight()));
         nodes.push_back(tmp);
     }
 }
 
-void readIn(std::vector<std::string> &dataFromFile, const std::string &line, std::vector<int> &instance,
-const std::string &path) {
+void readIn(std::vector<std::string> &dataFromFile, std::string &line,
+            const std::string &path) {
     file.open(path);
     if (file.is_open()) {
-while (getline(file, line)) {
-dataFromFile.push_back(line);
+        while (getline(file, line)) {
+            dataFromFile.push_back(line);
 //std::cout << line << std::endl;
-}
-file.close();
+        }
+        file.close();
 
-} else {
-std::cout << "Error while opening" << std::endl;
+    } else {
+        std::cout << "Error while opening" << std::endl;
+    }
+
+
 }
+
+void lineToInt(const std::string &line, std::vector<int> &instance) {
     std::istringstream iss(line);
     std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
                                     std::istream_iterator<std::string>{}};
 
     for (auto it = tokens.cbegin(); it != tokens.cend(); ++it) {
-instance.push_back((stoi(*it)));
-}
+        instance.push_back((stoi(*it)));
+    }
 }

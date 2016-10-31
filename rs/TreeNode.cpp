@@ -85,6 +85,7 @@ void TreeNode::Init() {
     this->weight = 0;
     this->costWeightRatio = 0.0;
     this->taken = false;
+    this->leaves = false;
     this->treeLevel = -1;
     this->leftChild = nullptr;
     this->rightChild = nullptr;
@@ -100,4 +101,31 @@ bool TreeNode::hasLeaves() const {
 
 void TreeNode::setLeaves(bool leaves) {
     TreeNode::leaves = leaves;
+}
+
+bool TreeNode::operator<(const TreeNode &rhs) const {
+    return costWeightRatio < rhs.costWeightRatio;
+}
+
+bool TreeNode::operator>(const TreeNode &rhs) const {
+    return rhs < *this;
+}
+
+bool TreeNode::operator<=(const TreeNode &rhs) const {
+    return !(rhs < *this);
+}
+
+bool TreeNode::operator>=(const TreeNode &rhs) const {
+    return !(*this < rhs);
+}
+
+std::ostream &operator<<(std::ostream &os, const TreeNode &node) {
+    os << "totalCost: " << node.totalCost << " cost: " << node.cost << " weight: " << node.weight
+       << " costWeightRatio: " << node.costWeightRatio << " taken: " << node.taken << " leaves: " << node.leaves
+       << " treeLevel: " << node.treeLevel;
+    return os;
+}
+
+bool TreeNode::compareRatio(TreeNode *a, TreeNode *b) {
+    return a->getCostWeightRatio() > b->getCostWeightRatio();
 }

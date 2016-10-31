@@ -6,6 +6,8 @@
 #define KNAPSACK_TREENODE_H
 
 
+#include <ostream>
+
 class TreeNode {
 
 public:
@@ -49,6 +51,17 @@ public:
 
     virtual ~TreeNode();
 
+    bool operator<(const TreeNode &rhs) const;
+
+    bool operator>(const TreeNode &rhs) const;
+
+    bool operator<=(const TreeNode &rhs) const;
+
+    bool operator>=(const TreeNode &rhs) const;
+
+    static bool compareRatio( TreeNode *a,  TreeNode *b);
+    friend std::ostream &operator<<(std::ostream &os, const TreeNode &node);
+
 private:
     int totalCost;
     int cost;
@@ -61,7 +74,6 @@ private:
     TreeNode * rightChild;
     TreeNode(int totalCost, int cost, int weight, double costWeightRatio, bool taken, int treeLevel,
              TreeNode *leftChild, TreeNode *rightChild);
-
     void Init();
 };
 

@@ -5,16 +5,15 @@
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Knapsack_logic.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/Sack.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/rs/runnable.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/rs/BackPack.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/TreeNode.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rs/Tree.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/Sack.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/TreeNode.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/BackPack.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/Package.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/Package.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/rs/Tree.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/rs/Tree.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/rs/BackPack.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Knapsack_logic.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
