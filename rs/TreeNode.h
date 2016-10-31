@@ -11,9 +11,13 @@
 class TreeNode {
 
 public:
-    int getTotalCost() const;
+    int getTotalCostLeft() const;
 
-    void setTotalCost(int totalCost);
+    void setTotalCostLeft(int totalCostLeft);
+
+    int getTotalCostRight() const;
+
+    void setTotalCostRight(int totalCostRight);
 
     int getCost() const;
 
@@ -35,13 +39,11 @@ public:
 
     void setTreeLevel(int treeLevel);
 
-    TreeNode *getLeftChild() const;
 
-    void setLeftChild(TreeNode *leftChild);
+    TreeNode *getChildNode() const;
 
-    TreeNode *getRightChild() const;
+    void setChildNode(TreeNode *childNode);
 
-    void setRightChild(TreeNode *rightChild);
 
     bool hasLeaves() const;
 
@@ -63,17 +65,15 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const TreeNode &node);
 
 private:
-    int totalCost;
+    int totalCostLeft;
+    int totalCostRight;
     int cost;
     int weight;
     double costWeightRatio;
     bool taken;
     bool leaves;
     int treeLevel;
-    TreeNode * leftChild;
-    TreeNode * rightChild;
-    TreeNode(int totalCost, int cost, int weight, double costWeightRatio, bool taken, int treeLevel,
-             TreeNode *leftChild, TreeNode *rightChild);
+    TreeNode * childNode;
     void Init();
 };
 

@@ -26,8 +26,22 @@ int main() {
     createNodes(instance, nodes);
     std::sort(nodes.begin(), nodes.end(), TreeNode::compareRatio);
     nodes.insert(nodes.begin(), new TreeNode());
+    TreeNode *tmp = nullptr;
+    //set up tree
+    for(unsigned int i =1; i<nodes.size();i++){
+            tmp = nodes.at(i-1);
+            tmp->setChildNode(nodes.at(i));
+    }
+
+
+
+
+
+
+
     for (int i = 0; i < nodes.size(); i++) {
         std::cout << *nodes.at(i) << std::endl;
+        delete nodes.at(i);
     }
 
 
