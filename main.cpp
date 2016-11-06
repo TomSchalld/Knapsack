@@ -4,54 +4,26 @@
 #include <bitset>
 #include "rs/BackPack.h"
 #include "Knapsack_logic.h"
-#include "rs/TreeNode.h"
+#include "rs/BranchAndBound.h"
 
 void readIn(std::vector<std::string> &dataFromFile, std::string &line,
             const std::string &path);
 
-void createNodes(std::vector<int> &instance, std::vector<TreeNode *> &nodes);
-
 void lineToInt(const std::string &line, std::vector<int> &instance);
+
 
 int main() {
 
+    BranchAndBound bab;
+    bab.solveAndPrintInstances();
 
-    std::vector<std::string> dataFromFile;
+
+    /*std::vector<std::string> dataFromFile;
     std::string line;
     std::vector<int> instance;
-    std::vector<TreeNode *> nodes;
-    std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_4.inst.dat";
+    std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_10.inst.dat";
     readIn(dataFromFile, line, path);
-    lineToInt(dataFromFile.at(0), instance);
-    createNodes(instance, nodes);
-    std::sort(nodes.begin(), nodes.end(), TreeNode::compareRatio);
-    nodes.insert(nodes.begin(), new TreeNode());
-    TreeNode *tmp = nullptr;
-    //set up tree
-    for(unsigned int i =1; i<nodes.size();i++){
-            tmp = nodes.at(i-1);
-            tmp->setChildNode(nodes.at(i));
-    }
-
-
-
-
-
-
-
-    for (int i = 0; i < nodes.size(); i++) {
-        std::cout << *nodes.at(i) << std::endl;
-        delete nodes.at(i);
-    }
-
-
-
-
-
-
-
-
-
+    lineToInt(dataFromFile.at(0), instance);*/
 
 /*
     BackPack *b;
@@ -67,41 +39,9 @@ int main() {
         b->print();
         delete b;
     }
-
 */
 
-/*    BackPack *r = new BackPack("C:\\Users\\tscha\\ClionProjects\\Knapsack\\rs\\knaller.dat");
-
-
-    r->pack();
-    r->print();
-
-
-    delete r;
-
-if (isBruteforce){
-    bruteForce();
-    exportToDesktop();
-    printResultSet();
-} else{
-    greedy();
-    exportToDesktop();
-    printResultSet();
-}
-
-*/
     return 0;
-}
-
-void createNodes(std::vector<int> &instance, std::vector<TreeNode *> &nodes) {
-    TreeNode *tmp = nullptr;
-    for (int i = 3; i < instance.size(); i++) {
-        tmp = new TreeNode();
-        tmp->setWeight(instance.at(i++));
-        tmp->setCost(instance.at(i));
-        tmp->setCostWeightRatio((double) (tmp->getCost() / tmp->getWeight()));
-        nodes.push_back(tmp);
-    }
 }
 
 void readIn(std::vector<std::string> &dataFromFile, std::string &line,
