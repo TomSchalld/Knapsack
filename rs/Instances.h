@@ -13,12 +13,18 @@
 class Instances {
 private:
     int instancePointer;
-    std::vector<Instance*> instances;
+    std::vector<Instance *> instances;
 public:
     virtual ~Instances();
-    void addInstance(Instance* instance);
-    Instance * getNextInstance();
+
+    void addInstance(Instance *instance);
+
+    Instance *getNextInstance();
+
     friend std::ostream &operator<<(std::ostream &os, const Instances &instances);
+
+    void exportToDesktop();
+
 };
 
 

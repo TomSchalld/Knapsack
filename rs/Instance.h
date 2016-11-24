@@ -15,11 +15,13 @@
 
 class Instance {
 private:
+    const int MULTIPLIKATOR = 1;
     int id;
     int amountOfItems;
     int capacity;
     int totalCostOfSolution;
     int totalWeightOfSolution;
+    double timeForSolution;
     std::vector<int> cost;
     std::vector<int> weight;
     std::vector<bool> resultSet;
@@ -28,10 +30,11 @@ public:
 
     Instance(std::vector<int> &instanceAsInt);
 
+    const int getMULTIPLIKATOR() const;
 
     void setTotalCostOfSolution(int totalCostOfSolution);
 
-    void setTotalWeightOfSolution(int totalWeightOfSolution);
+    void setTotalWeightOfSolution();
 
     void setResultSet(const std::vector<bool, std::allocator<bool>> &resultSet);
 
@@ -50,6 +53,13 @@ public:
     const std::vector<int> &getWeight() const;
 
     const std::vector<bool, std::allocator<bool>> &getResultSet() const;
+
+    double getTimeForSolution() const;
+
+    void setTimeForSolution(double timeForSolution);
+
+    int getTotalCostOfInstance();
+    int getTotalWeightOfInstance();
 };
 
 

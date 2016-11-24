@@ -12,7 +12,7 @@ Instance::Instance(std::vector<int> &instanceAsInt) {
     this->capacity = instanceAsInt.at(2);
     this->totalCostOfSolution=0;
     this->totalWeightOfSolution=0;
-    for (int i=3; i< instanceAsInt.size(); i+=2){
+    for (int i=3; i< instanceAsInt.size(); i++){
         //w|c
         this->weight.push_back(instanceAsInt.at(i++));
         this->cost.push_back(instanceAsInt.at(i));
@@ -26,6 +26,7 @@ std::ostream &operator<<(std::ostream &os, const Instance &instance) {
     for (int i = 0; i <instance.resultSet.size() ; ++i) {
         os<< instance.resultSet.at(i);
     }
+    os<<" timeForSolution: "<<instance.getTimeForSolution();
     return os;
 }
 
@@ -62,13 +63,47 @@ const std::vector<bool, std::allocator<bool>> &Instance::getResultSet() const {
 }
 
 void Instance::setTotalCostOfSolution(int totalCostOfSolution) {
+
     Instance::totalCostOfSolution = totalCostOfSolution;
 }
 
-void Instance::setTotalWeightOfSolution(int totalWeightOfSolution) {
-    Instance::totalWeightOfSolution = totalWeightOfSolution;
+void Instance::setTotalWeightOfSolution() {
+    for (int i=0; i<this->resultSet.size();i++){
+        if(this->resultSet.at(i)){
+            this->totalWeightOfSolution+=this->getWeight().at(i);
+        }
+    }
 }
 
 void Instance::setResultSet(const std::vector<bool, std::allocator<bool>> &resultSet) {
     Instance::resultSet = resultSet;
+}
+
+const int Instance::getMULTIPLIKATOR() const {
+    return MULTIPLIKATOR;
+}
+
+double Instance::getTimeForSolution() const {
+    return timeForSolution;
+}
+
+void Instance::setTimeForSolution(double timeForSolution) {
+    Instance::timeForSolution = timeForSolution;
+}
+
+int Instance::getTotalCostOfInstance() {
+    int tmp=0;
+    for (int i=0; i<this->cost.size(); i++) {
+        tmp+=this->cost.at(i);
+    }
+    return tmp;
+}
+
+int Instance::getTotalWeightOfInstance() {
+    int tmp=0;
+    for (int i=0; i<this->weight.size(); i++) {
+        tmp+=this->weight.at(i);
+    }
+    return tmp;
+
 }

@@ -22,7 +22,7 @@ private:
     std::vector<std::string> dataFromFile;
     std::string line;
     std::vector<int> instance;
-    const std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_10.inst.dat";
+    const std::string path = "C:\\Users\\tscha\\ClionProjects\\Knapsack\\inst\\knap_4.inst.dat";
 
 public:
     void readIn();

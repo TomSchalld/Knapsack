@@ -5,6 +5,7 @@
 #include "rs/BackPack.h"
 #include "Knapsack_logic.h"
 #include "rs/BranchAndBound.h"
+#include "rs/KnapsackCostDecomposition.h"
 
 void readIn(std::vector<std::string> &dataFromFile, std::string &line,
             const std::string &path);
@@ -13,9 +14,13 @@ void lineToInt(const std::string &line, std::vector<int> &instance);
 
 
 int main() {
+    DataImport import;
+    import.readIn();
+    KnapsackCostDecomposition sack(import.createInstances());
+    sack.doInstance();
 
-    BranchAndBound bab;
-    bab.solveAndPrintInstances();
+   /* BranchAndBound bab;
+    bab.solvePrintAndExportToDesktop();*/
 
 
     /*std::vector<std::string> dataFromFile;

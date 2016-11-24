@@ -15,7 +15,7 @@ class BranchAndBound {
 
 private:
     Instances* instances;
-    void pushBitSetToQ(const int capacity, std::queue<std::vector<bool>> &queue) const;
+    void pushBitSetToQ(const int amountOfItems, std::queue<std::vector<bool>> &queue) const;
 
 public:
     BranchAndBound();
@@ -30,6 +30,13 @@ public:
     int calculateCurrentWeight(std::vector<bool> *items, Instance *pInstance);
 
     std::vector<bool> generateNextBit(std::vector<bool> *items, int position);
+
+    void clear(std::queue<std::vector<bool, std::allocator<bool>>> &q);
+
+    void clear(std::vector<bool, std::allocator<bool>> &v);
+
+
+    void solvePrintAndExportToDesktop();
 };
 
 

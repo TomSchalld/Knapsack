@@ -2,6 +2,7 @@
 // Created by tscha on 06/11/2016.
 //
 
+#include <ctime>
 #include "BranchAndBound.h"
 
 BranchAndBound::BranchAndBound() {
@@ -9,59 +10,82 @@ BranchAndBound::BranchAndBound() {
     dataImport.readIn();
     this->instances = dataImport.createInstances();
 }
+void BranchAndBound::solvePrintAndExportToDesktop(){
+    solveAndPrintInstances();
+    this->instances->exportToDesktop();
+}
 void BranchAndBound::solveAndPrintInstances() {
     Instances *instances = this->instances;
-solveAndPrintInstance(instances->getNextInstance());
+    Instance *tmp = instances->getNextInstance();
+
+    while (tmp != nullptr) {
+        solveAndPrintInstance(tmp);
+        tmp = instances->getNextInstance();
+    }
+
 }
+
 void BranchAndBound::solveAndPrintInstance(Instance *instance) {
     const int capacity = instance->getCapacity();
     const int amountOfItems = instance->getAmountOfItems();
-    int currentPosition = 0;
-    int bestCostSoFar = 0;
-    int currentCost = 0;
-    int remainingCost = 0;
-    int currentWeight = 0;
-    std::vector<bool> currentItemSet;
-    std::vector<bool> currentBestSolution;
+    int currentPosition, bestCostSoFar, currentCost, remainingCost, currentWeight;
+    std::vector<bool> currentItemSet, currentBestSolution;
     std::queue<std::vector<bool>> queue;
+    time_t time;
+    //
+    time = clock();
+    for (int j = 0; j < instance->getMULTIPLIKATOR(); ++j) {
+        currentPosition = 0;
+        bestCostSoFar = 0;
+        currentCost = 0;
+        remainingCost = 0;
+        currentWeight = 0;
+        clear(currentItemSet);
+        clear(currentBestSolution);
+        clear(queue);
 
-    pushBitSetToQ(capacity, queue);
+        pushBitSetToQ(amountOfItems, queue);
 
-    while (!queue.empty()) {
-        currentItemSet = queue.front();
-        queue.pop();
+        while (!queue.empty()) {
+            currentItemSet = queue.front();
+            queue.pop();
+            currentCost = calculateCurrentCost(&currentItemSet, instance);
+            if (currentCost >= bestCostSoFar) {
+                bestCostSoFar = currentCost;
+                currentBestSolution = currentItemSet;
+            }
 
-        currentCost = calculateCurrentCost(&currentItemSet, instance);
-        if (currentCost >= bestCostSoFar) {
-            bestCostSoFar = currentCost;
-            currentBestSolution = currentItemSet;
-        }
+            remainingCost = calculateRemainingCost(&currentItemSet, instance);
 
-        remainingCost = calculateRemainingCost(&currentItemSet, instance);
-
-        if (currentCost + remainingCost >= bestCostSoFar) {
-            currentWeight = calculateCurrentWeight(&currentItemSet, instance);
-            currentPosition = calculatePosition(&currentItemSet);
-            for (int i = currentPosition + 1; i < amountOfItems; ++i) {
-                if ((currentWeight + instance->getWeight().at(i)) <= capacity)
-                    queue.push(generateNextBit(&currentItemSet, i));
+            if (currentCost + remainingCost >= bestCostSoFar) {
+                currentWeight = calculateCurrentWeight(&currentItemSet, instance);
+                currentPosition = calculatePosition(&currentItemSet);
+                for (int i = currentPosition + 1; i < amountOfItems; ++i) {
+                    if ((currentWeight + instance->getWeight().at(i)) <= capacity)
+                        queue.push(generateNextBit(&currentItemSet, i));
+                }
             }
         }
     }
+    time = clock()-time;
+
+    instance->setTimeForSolution(((double)time/CLOCKS_PER_SEC)/instance->getMULTIPLIKATOR());
     instance->setTotalCostOfSolution(bestCostSoFar);
     instance->setResultSet(currentBestSolution);
-    std::cout<<*instance<<::std::endl;
+    instance->setTotalWeightOfSolution();
+    std::cout << *instance << ::std::endl;
 }
 
+
+
 void
-BranchAndBound::pushBitSetToQ(const int capacity, std::queue<std::vector<bool, std::allocator<bool>>> &queue) const {
+BranchAndBound::pushBitSetToQ(const int amountOfItems, std::queue<std::vector<bool>> &queue) const {
     std::vector<bool> bitSet;
-    for (int i = 0; i < capacity; i++) {
+    for (int i = 0; i < amountOfItems; i++) {
         bitSet.push_back(false);
     }
     queue.push(bitSet);
 }
-
 
 
 int BranchAndBound::calculateCurrentCost(std::vector<bool> *bitSet, Instance *inst) {
@@ -110,4 +134,14 @@ std::vector<bool> BranchAndBound::generateNextBit(std::vector<bool> *items, int 
     std::vector<bool> tmp = *items;
     tmp.at(position) = 1;
     return tmp;
+}
+void BranchAndBound::clear( std::queue<std::vector<bool>> &q )
+{
+    std::queue<std::vector<bool>> empty;
+    std::swap( q, empty );
+}
+void BranchAndBound::clear( std::vector<bool> &v )
+{
+    std::vector<bool> empty;
+    std::swap( v, empty );
 }
