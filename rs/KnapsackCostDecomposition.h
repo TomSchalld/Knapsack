@@ -11,7 +11,11 @@
 class KnapsackCostDecomposition {
 
 Instances * instances;
+double eps = 0.01;
+public:
+    double getEps() const;
 
+    void setEps(double eps);
 
 public:
     KnapsackCostDecomposition(Instances *instances);
@@ -20,6 +24,8 @@ public:
 
     void doInstance();
     int pack(Instance * instance);
+
+    double packFptas(Instance *instance);
 };
 
 

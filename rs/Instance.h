@@ -60,6 +60,10 @@ public:
 
     int getTotalCostOfInstance();
     int getTotalWeightOfInstance();
+
+    const int getMaxCost();
+
+    void setCost(const std::vector<int> &cost);
 };
 
 
